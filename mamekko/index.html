@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>マメッコ 分析・PDCA</title>
+<style>
+:root{--navy:#1a1a2e;--accent:#e94560;--bg:#f5f7fa;--card:#fff;--text:#1a1a2e;--sub:#6b7280;--line:#e5e7eb}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+header{background:var(--navy);color:#fff;padding:20px 16px}
+header .inner{max-width:1080px;margin:0 auto;display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:4px}
+header h1{font-size:1.25rem}
+header h1 span{color:var(--accent)}
+header .meta{color:#a0aec0;font-size:.8rem}
+main{max-width:1080px;margin:0 auto;padding:16px}
+.card{background:var(--card);border-radius:12px;box-shadow:0 1px 6px rgba(0,0,0,.05);padding:20px;margin-bottom:16px}
+.card h2{font-size:1.05rem;margin-bottom:12px}
+.card .note{font-size:.75rem;color:var(--sub);margin:-8px 0 12px}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+@media(max-width:700px){.kpi-grid{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:var(--card);border-radius:12px;box-shadow:0 1px 6px rgba(0,0,0,.05);padding:16px}
+.kpi .label{font-size:.75rem;color:var(--sub)}
+.kpi .value{font-size:1.5rem;font-weight:700;margin-top:2px}
+.kpi .delta{font-size:.78rem;font-weight:600;margin-top:2px}
+.up{color:#059669}.down{color:#dc2626}
+.actions li{list-style:none;display:flex;gap:8px;padding:6px 0;font-size:.9rem;border-bottom:1px solid #f3f4f6}
+.actions li:last-child{border-bottom:none}
+.actions .arrow{color:var(--accent);font-weight:700;flex-shrink:0}
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.85rem;white-space:nowrap}
+th{text-align:left;font-size:.72rem;color:var(--sub);font-weight:600;padding:6px 10px 6px 0;border-bottom:1px solid var(--line)}
+td{padding:8px 10px 8px 0;border-bottom:1px solid #f3f4f6;vertical-align:top}
+th.r,td.r{text-align:right}
+.post-title{font-weight:600;color:var(--text);text-decoration:none;max-width:15em;overflow:hidden;text-overflow:ellipsis;display:inline-block;vertical-align:bottom}
+a.post-title:hover{color:var(--accent)}
+.diag{font-size:.72rem;color:#9ca3af;white-space:normal;max-width:22em;margin-top:2px}
+.badge{display:inline-block;font-size:.72rem;font-weight:600;padding:2px 10px;border-radius:999px;white-space:nowrap}
+.v-hit{background:#d1fae5;color:#059669}
+.v-good{background:#ecfdf5;color:#10b981}
+.v-mid{background:#f3f4f6;color:#6b7280}
+.v-weak{background:#fef3c7;color:#d97706}
+.v-miss{background:#fee2e2;color:#dc2626}
+.v-na{background:#f3f4f6;color:#9ca3af}
+.pdca-item{border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:10px}
+.pdca-item .head{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.pdca-item .date{font-size:.75rem;color:var(--sub)}
+.pdca-item .title{font-weight:600}
+.pdca-item .hyp{font-size:.85rem;color:var(--sub);margin-top:4px}
+.pdca-item .check{font-size:.85rem;margin-top:4px}
+.slots{display:flex;flex-wrap:wrap;gap:10px}
+.slot{border:1px solid var(--line);border-radius:10px;padding:10px 14px;text-align:center}
+.slot .t{font-weight:700}
+.slot .d{font-size:.7rem;color:var(--sub);margin-top:2px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:800px){.grid-2{grid-template-columns:1fr}}
+.legend{font-size:.78rem;color:var(--sub)}
+.legend li{margin:4px 0 4px 1.2em}
+.empty{color:#9ca3af;font-size:.85rem;padding:12px 0}
+footer{text-align:center;color:#9ca3af;font-size:.75rem;padding:24px}
+#error{display:none;max-width:1080px;margin:24px auto;padding:20px;background:#fee2e2;color:#b91c1c;border-radius:12px;font-size:.9rem}
+</style>
+</head>
+<body>
+<header><div class="inner">
+<h1><span>マメッコ</span> 分析・PDCA</h1>
+<div class="meta" id="meta">読み込み中…</div>
+</div></header>
+<div id="error"></div>
+<main id="main" style="display:none">
+<div class="kpi-grid" id="kpis"></div>
+<div class="card"><h2>次のアクション提案</h2><ul class="actions" id="actions"></ul></div>
+<div class="card">
+<h2>投稿スコアカード</h2>
+<p class="note">リーチ指数=直前投稿の中央値との比。1.5以上で当たり、0.6未満で外れ</p>
+<div class="tablewrap"><table id="scorecard">
+<thead><tr><th>日付</th><th>投稿</th><th>型</th><th>テーマ</th><th class="r">リーチ</th><th class="r">指数</th><th class="r">保存率</th><th class="r">フォロー</th><th>判定</th></tr></thead>
+<tbody></tbody></table></div>
+</div>
+<div class="card"><h2>PDCA検証（仮説→実績）</h2><div id="pdca"></div></div>
+<div class="grid-2">
+<div class="card"><h2>テーマ別（過去90日）</h2><div class="tablewrap"><table id="themes"><thead><tr><th>分類</th><th class="r">本数</th><th class="r">中央値リーチ</th><th class="r">保存率</th><th class="r">フォロー率</th></tr></thead><tbody></tbody></table></div></div>
+<div class="card"><h2>型別（過去90日）</h2><div class="tablewrap"><table id="patterns"><thead><tr><th>分類</th><th class="r">本数</th><th class="r">中央値リーチ</th><th class="r">保存率</th><th class="r">フォロー率</th></tr></thead><tbody></tbody></table></div></div>
+</div>
+<div class="card"><h2>ベスト投稿時間（JST）</h2><div class="slots" id="besttimes"></div></div>
+<div class="card"><h2>指標の見方</h2><ul class="legend">
+<li><strong>リーチ指数</strong>: そのリーチ÷直前同タイプ投稿の中央値。「今の地力」基準なので過去バズやアルゴリズム変動に引きずられない</li>
+<li><strong>保存率</strong>: 保存÷リーチ。新規に刺さる度合い。ERより成長と相関が強い</li>
+<li><strong>フォロー率</strong>: フォロー÷リーチ。アカウント成長への直接貢献</li>
+<li>ERはフォロワーのいいねで嵩上げされるため参考程度に（ER高・リーチ減=既存にしか届いていない危険信号）</li>
+</ul></div>
+</main>
+<footer>データ更新: <code>npm run analyze:publish</code>（更新するとこのページも変わります）</footer>
+<script>
+const fmt=n=>n==null?"—":n.toLocaleString("en-US");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const bold=s=>esc(s).replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
+const vclass={"当たり":"v-hit","良好":"v-good","普通":"v-mid","弱い":"v-weak","外れ":"v-miss"};
+function signed(n){return n==null?"±?":(n>=0?"+":"")+fmt(n)}
+async function load(){
+let r;
+try{
+const res=await fetch("./report.json?t="+Date.now());
+if(!res.ok)throw new Error("HTTP "+res.status);
+r=await res.json();
+}catch(e){
+const el=document.getElementById("error");
+el.style.display="block";
+el.textContent="report.jsonを読み込めませんでした。npm run analyze:publish でデータを生成・プッシュしてください（"+e.message+"）";
+document.getElementById("meta").textContent="";
+return;
+}
+document.getElementById("meta").textContent="直近"+r.recentDays+"日 ｜ 更新: "+new Date(r.generatedAt).toLocaleString("ja-JP");
+const h=r.health;
+const trend=h.reachTrendPct!=null?'<div class="delta '+(h.reachTrendPct>=0?"up":"down")+'">'+(h.reachTrendPct>=0?"+":"")+h.reachTrendPct.toFixed(1)+"% 前期比</div>":"";
+document.getElementById("kpis").innerHTML=
+kpi("フォロワー",fmt(h.latestFollowers),h.followersDelta28d!=null?'<div class="delta '+(h.followersDelta28d>=0?"up":"down")+'">28日 '+signed(h.followersDelta28d)+"</div>":"")+
+kpi("フォロワー増減（7日）",signed(h.followersDelta7d),"")+
+kpi("日次リーチ28日平均",fmt(h.avgDailyReachRecent),trend)+
+kpi("投稿頻度（週平均）",h.avgPostsPerWeek.toFixed(1)+"本","");
+document.getElementById("actions").innerHTML=r.actions.map(a=>'<li><span class="arrow">→</span><span>'+bold(a)+"</span></li>").join("");
+document.querySelector("#scorecard tbody").innerHTML=r.scorecard.length?r.scorecard.map(s=>{
+const t=s.permalink?'<a class="post-title" target="_blank" rel="noopener" href="'+esc(s.permalink)+'">'+esc(s.title)+"</a>":'<span class="post-title">'+esc(s.title)+"</span>";
+const d=s.diagnosis.length?'<div class="diag">'+esc(s.diagnosis.join("／"))+"</div>":"";
+return "<tr><td>"+esc(s.date)+"</td><td>"+t+d+"</td><td>"+esc(s.pattern)+"</td><td>"+esc(s.theme)+'</td><td class="r">'+fmt(s.reach)+'</td><td class="r"><strong>'+(s.reachIndex!=null?s.reachIndex.toFixed(2):"—")+'</strong></td><td class="r">'+s.saveRate.toFixed(2)+'%</td><td class="r">'+s.follows+'</td><td><span class="badge '+(vclass[s.verdict]||"v-na")+'">'+esc(s.verdict)+"</span></td></tr>";
+}).join(""):'<tr><td colspan="9" class="empty">直近の投稿データがありません</td></tr>';
+document.getElementById("pdca").innerHTML=r.pdca.length?r.pdca.map(p=>{
+let body="";
+if(!p.matched){body='<div class="check"><span class="badge v-na">未投稿/未マッチ</span></div>';}
+else{
+body=p.checks.map(c=>'<div class="check">'+(c.pass?"✅":"❌")+" "+esc(c.label)+": 目標"+c.target+" → 実績"+(Math.round(c.actual*100)/100)+"</div>").join("");
+if(!p.checks.length)body='<div class="check empty">目標値未設定（target_reach_index等をプランに書くと自動判定）</div>';
+if(p.diagnosis.length)body+='<div class="diag">'+esc(p.diagnosis.join("／"))+"</div>";
+}
+return '<div class="pdca-item"><div class="head"><span class="date">'+esc(p.date||"日付未定")+'</span><span class="title">'+esc(p.title||p.file)+"</span></div>"+(p.hypothesis?'<div class="hyp">仮説: '+esc(p.hypothesis)+"</div>":"")+body+"</div>";
+}).join(""):'<div class="empty">プランファイルがありません。accounts/mamekko/pdca/に投稿プラン（_template.md参照）を置くと自動で実績と突き合わせます。</div>';
+const grp=s=>"<tr><td>"+esc(s.name)+'</td><td class="r">'+s.posts+'</td><td class="r">'+fmt(s.medianReach)+'</td><td class="r">'+s.avgSaveRate.toFixed(2)+'%</td><td class="r">'+s.avgFollowRate.toFixed(3)+"%</td></tr>";
+document.querySelector("#themes tbody").innerHTML=r.themes.map(grp).join("")||'<tr><td colspan="5" class="empty">データなし</td></tr>';
+document.querySelector("#patterns tbody").innerHTML=r.patterns.map(grp).join("")||'<tr><td colspan="5" class="empty">データなし</td></tr>';
+document.getElementById("besttimes").innerHTML=r.bestTimes.length?r.bestTimes.slice(0,5).map(s=>'<div class="slot"><div class="t">'+esc(s.dayLabel)+"曜 "+s.hour+'時</div><div class="d">中央値リーチ '+fmt(s.medianReach)+"<br>保存率 "+s.avgSaveRate.toFixed(2)+"% ｜ "+s.posts+"投稿</div></div>").join(""):'<div class="empty">同一時間枠のサンプルがまだ足りません</div>';
+document.getElementById("main").style.display="block";
+}
+function kpi(label,value,extra){return '<div class="kpi"><div class="label">'+label+'</div><div class="value">'+value+"</div>"+extra+"</div>"}
+load();
+</script>
+</body>
+</html>
