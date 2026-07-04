@@ -1,0 +1,23 @@
+{
+ "account": "mamekko",
+ "generatedAt": "2026-07-04T00:00:00.000Z",
+ "recentDays": 28,
+ "health": {
+  "latestFollowers": null,
+  "followersDelta7d": null,
+  "followersDelta28d": null,
+  "avgDailyReachRecent": null,
+  "reachTrendPct": null,
+  "avgPostsPerWeek": 0,
+  "weeklyPostCounts": []
+ },
+ "scorecard": [],
+ "themes": [],
+ "patterns": [],
+ "bestTimes": [],
+ "pdca": [],
+ "actions": [
+  "**データ未取得**: `./start.sh mamekko` でDB起動→ `npx tsx run-sync.ts` でInstagram APIからデータを取得してください",
+  "データ取得後 `npm run analyze:publish` でこのページが自動更新されます"
+ ]
+}
