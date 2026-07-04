@@ -1,23 +1,469 @@
 {
  "account": "mamekko",
- "generatedAt": "2026-07-04T00:00:00.000Z",
+ "generatedAt": "2026-07-04T15:23:31.139Z",
  "recentDays": 28,
  "health": {
-  "latestFollowers": null,
-  "followersDelta7d": null,
-  "followersDelta28d": null,
-  "avgDailyReachRecent": null,
-  "reachTrendPct": null,
-  "avgPostsPerWeek": 0,
-  "weeklyPostCounts": []
+  "latestFollowers": 0,
+  "followersDelta7d": 0,
+  "followersDelta28d": 0,
+  "avgDailyReachRecent": 12265,
+  "avgDailyReachPrev": 9471,
+  "reachTrendPct": 29.500580720092916,
+  "weeklyPostCounts": [
+   {
+    "week": "2026-W20",
+    "count": 2
+   },
+   {
+    "week": "2026-W21",
+    "count": 3
+   },
+   {
+    "week": "2026-W22",
+    "count": 3
+   },
+   {
+    "week": "2026-W23",
+    "count": 2
+   },
+   {
+    "week": "2026-W24",
+    "count": 3
+   },
+   {
+    "week": "2026-W25",
+    "count": 3
+   },
+   {
+    "week": "2026-W26",
+    "count": 4
+   },
+   {
+    "week": "2026-W27",
+    "count": 3
+   }
+  ],
+  "avgPostsPerWeek": 2.857142857142857
  },
- "scorecard": [],
- "themes": [],
- "patterns": [],
- "bestTimes": [],
+ "scorecard": [
+  {
+   "date": "7/3",
+   "title": "「自分の直感に従って動いているはずなのに、な…",
+   "permalink": "https://www.instagram.com/p/DaVBY6JkfBx/",
+   "pattern": "C 共感・癒し系",
+   "theme": "直感・サイン",
+   "reach": 2216,
+   "reachIndex": 0.4068667951895713,
+   "saveRate": 1.128158844765343,
+   "followRate": 0.04512635379061372,
+   "follows": 1,
+   "verdict": "外れ",
+   "diagnosis": [
+    "中身は刺さっているのに露出が弱い→1枚目フック・初速・投稿時間を疑う",
+    "プロフ訪問→フォロー転換5%未満→プロフィール文・ハイライト見直し"
+   ]
+  },
+  {
+   "date": "7/1",
+   "title": "最近やたら神社が気になる人、",
+   "permalink": "https://www.instagram.com/p/DaP3r5zFNQU/",
+   "pattern": "未分類",
+   "theme": "波動・エネルギー",
+   "reach": 4924,
+   "reachIndex": 0.9040668319104012,
+   "saveRate": 1.2997562956945572,
+   "followRate": 0,
+   "follows": 0,
+   "verdict": "普通",
+   "diagnosis": [
+    "プロフ訪問→フォロー転換5%未満→プロフィール文・ハイライト見直し"
+   ]
+  },
+  {
+   "date": "6/29",
+   "title": "「宇宙と繋がる」って聞くと、なんだか特別な能…",
+   "permalink": "https://www.instagram.com/p/DaK2rtQgR9e/",
+   "pattern": "A 好奇心・診断系",
+   "theme": "直感・サイン",
+   "reach": 2855,
+   "reachIndex": 0.5241898466905353,
+   "saveRate": 1.2609457092819614,
+   "followRate": 0,
+   "follows": 0,
+   "verdict": "外れ",
+   "diagnosis": [
+    "中身は刺さっているのに露出が弱い→1枚目フック・初速・投稿時間を疑う",
+    "プロフ訪問→フォロー転換5%未満→プロフィール文・ハイライト見直し"
+   ]
+  },
+  {
+   "date": "6/27",
+   "title": "2026年下半期、",
+   "permalink": "https://www.instagram.com/p/DaFmG9qnxEy/",
+   "pattern": "C 共感・癒し系",
+   "theme": "直感・サイン",
+   "reach": 5193,
+   "reachIndex": 0.9043887147335423,
+   "saveRate": 0.789524359715001,
+   "followRate": 0,
+   "follows": 0,
+   "verdict": "普通",
+   "diagnosis": [
+    "プロフ訪問→フォロー転換5%未満→プロフィール文・ハイライト見直し"
+   ]
+  },
+  {
+   "date": "6/26",
+   "title": "「夏至を越えたのに、何も変わらない……」",
+   "permalink": "https://www.instagram.com/p/DaC4K0wGxO3/",
+   "pattern": "C 共感・癒し系",
+   "theme": "直感・サイン",
+   "reach": 6973,
+   "reachIndex": 1.2143852316266108,
+   "saveRate": 1.4054209092212822,
+   "followRate": 0,
+   "follows": 0,
+   "verdict": "良好",
+   "diagnosis": [
+    "リーチは伸びたがフォロー転換が弱い→プロフ導線CTAまたはターゲットずれ",
+    "プロフ訪問→フォロー転換5%未満→プロフィール文・ハイライト見直し"
+   ]
+  },
+  {
+   "date": "6/24",
+   "title": "「現実が変わらない」「いつも同じパターンの繰…",
+   "permalink": "https://www.instagram.com/p/DZ93C-RiCQB/",
+   "pattern": "A 好奇心・診断系",
+   "theme": "直感・サイン",
+   "reach": 3954,
+   "reachIndex": 0.6722774802346341,
+   "saveRate": 1.3657056145675266,
+   "followRate": 0.05058168942842691,
+   "follows": 2,
+   "verdict": "弱い",
+   "diagnosis": [
+    "中身は刺さっているのに露出が弱い→1枚目フック・初速・投稿時間を疑う"
+   ]
+  },
+  {
+   "date": "6/22",
+   "title": "理由はないのに焦ったり、",
+   "permalink": "https://www.instagram.com/p/DZ4rRR8j9V4/",
+   "pattern": "B 天体イベント系",
+   "theme": "宇宙・天体イベント",
+   "reach": 3168,
+   "reachIndex": 0.5386381025248661,
+   "saveRate": 0.8207070707070708,
+   "followRate": 0,
+   "follows": 0,
+   "verdict": "外れ",
+   "diagnosis": [
+    "保存率もベースライン以下→テーマ/切り口が刺さっていない",
+    "プロフ訪問→フォロー転換5%未満→プロフィール文・ハイライト見直し"
+   ]
+  },
+  {
+   "date": "6/20",
+   "title": "風の時代になったら、",
+   "permalink": "https://www.instagram.com/p/DZzeP-DAE-9/",
+   "pattern": "未分類",
+   "theme": "宇宙・天体イベント",
+   "reach": 5784,
+   "reachIndex": 0.9904957616234267,
+   "saveRate": 0.8990318118948823,
+   "followRate": 0.034578146611341634,
+   "follows": 2,
+   "verdict": "普通",
+   "diagnosis": [
+    "プロフ訪問→フォロー転換5%未満→プロフィール文・ハイライト見直し"
+   ]
+  },
+  {
+   "date": "6/17",
+   "title": "(キャプションなし)",
+   "permalink": "https://www.instagram.com/reel/DZsDU4tgZH7/",
+   "pattern": "D リール",
+   "theme": "未分類",
+   "reach": 2193,
+   "reachIndex": 0.5909458367016976,
+   "saveRate": 0.13679890560875513,
+   "followRate": 0,
+   "follows": 0,
+   "verdict": "外れ",
+   "diagnosis": [
+    "保存率もベースライン以下→テーマ/切り口が刺さっていない"
+   ]
+  },
+  {
+   "date": "6/16",
+   "title": "人間関係で、「この人、何か違うかも…」と感じ…",
+   "permalink": "https://www.instagram.com/p/DZpO2cEkiXi/",
+   "pattern": "C 共感・癒し系",
+   "theme": "直感・サイン",
+   "reach": 5700,
+   "reachIndex": 1.0938399539435808,
+   "saveRate": 0.8771929824561403,
+   "followRate": 0.03508771929824561,
+   "follows": 2,
+   "verdict": "普通",
+   "diagnosis": [
+    "プロフ訪問→フォロー転換5%未満→プロフィール文・ハイライト見直し"
+   ]
+  },
+  {
+   "date": "6/13",
+   "title": "＼人生をガラッと変える、今年の夏至の迎え方\ud83c…",
+   "permalink": "https://www.instagram.com/p/DZhiSCXgeBH/",
+   "pattern": "C 共感・癒し系",
+   "theme": "手放し・委ねる",
+   "reach": 9919,
+   "reachIndex": 1.9034734216081366,
+   "saveRate": 1.6029841717915112,
+   "followRate": 0.040326645831232986,
+   "follows": 4,
+   "verdict": "当たり",
+   "diagnosis": [
+    "リーチ・フォローとも好調→この型を再現する"
+   ]
+  },
+  {
+   "date": "6/10",
+   "title": "「え！困る！」って思うような最悪なハプニング…",
+   "permalink": "https://www.instagram.com/p/DZZxRoADdJI/",
+   "pattern": "未分類",
+   "theme": "波動・エネルギー",
+   "reach": 8375,
+   "reachIndex": 1.9105737424432532,
+   "saveRate": 0.6925373134328359,
+   "followRate": 0.011940298507462687,
+   "follows": 1,
+   "verdict": "当たり",
+   "diagnosis": [
+    "リーチは伸びたがフォロー転換が弱い→プロフ導線CTAまたはターゲットずれ",
+    "プロフ訪問→フォロー転換5%未満→プロフィール文・ハイライト見直し"
+   ]
+  },
+  {
+   "date": "6/8",
+   "title": "「いつも前向きでいなきゃ」",
+   "permalink": "https://www.instagram.com/reel/DZUjpWPgZle/",
+   "pattern": "D リール",
+   "theme": "自己受容・癒し",
+   "reach": 2264,
+   "reachIndex": 0.568344420735534,
+   "saveRate": 1.0159010600706713,
+   "followRate": 0,
+   "follows": 0,
+   "verdict": "外れ",
+   "diagnosis": [
+    "保存率もベースライン以下→テーマ/切り口が刺さっていない"
+   ]
+  }
+ ],
+ "themes": [
+  {
+   "name": "手放し・委ねる",
+   "posts": 5,
+   "medianReach": 8527,
+   "avgSaveRate": 1.558890087322736,
+   "avgFollowRate": 0.04561020340390053,
+   "totalFollows": 16
+  },
+  {
+   "name": "診断・スピ体質",
+   "posts": 4,
+   "medianReach": 7018,
+   "avgSaveRate": 1.2243443365437032,
+   "avgFollowRate": 0.043157654871367676,
+   "totalFollows": 10
+  },
+  {
+   "name": "未分類",
+   "posts": 7,
+   "medianReach": 5349,
+   "avgSaveRate": 1.3217007659404787,
+   "avgFollowRate": 0.02702857078047218,
+   "totalFollows": 15
+  },
+  {
+   "name": "直感・サイン",
+   "posts": 7,
+   "medianReach": 5193,
+   "avgSaveRate": 1.116104344361226,
+   "avgFollowRate": 0.02410149349434489,
+   "totalFollows": 9
+  },
+  {
+   "name": "潜在意識・書き換え",
+   "posts": 6,
+   "medianReach": 3754,
+   "avgSaveRate": 1.0888618193353912,
+   "avgFollowRate": 0.017995585931025296,
+   "totalFollows": 4
+  },
+  {
+   "name": "宇宙・天体イベント",
+   "posts": 4,
+   "medianReach": 4774,
+   "avgSaveRate": 0.9182092151602386,
+   "avgFollowRate": 0.015286407003526164,
+   "totalFollows": 3
+  },
+  {
+   "name": "波動・エネルギー",
+   "posts": 7,
+   "medianReach": 5474,
+   "avgSaveRate": 1.6747848461927244,
+   "avgFollowRate": 0.013312401816092901,
+   "totalFollows": 7
+  },
+  {
+   "name": "自己受容・癒し",
+   "posts": 1,
+   "medianReach": 2264,
+   "avgSaveRate": 1.0159010600706713,
+   "avgFollowRate": 0,
+   "totalFollows": 0
+  }
+ ],
+ "patterns": [
+  {
+   "name": "A 好奇心・診断系",
+   "posts": 6,
+   "medianReach": 5559,
+   "avgSaveRate": 1.308656645225814,
+   "avgFollowRate": 0.03890564213508011,
+   "totalFollows": 13
+  },
+  {
+   "name": "C 共感・癒し系",
+   "posts": 14,
+   "medianReach": 5590,
+   "avgSaveRate": 1.3266604359827443,
+   "avgFollowRate": 0.03206592019891014,
+   "totalFollows": 31
+  },
+  {
+   "name": "未分類",
+   "posts": 14,
+   "medianReach": 5567,
+   "avgSaveRate": 1.144285459199314,
+   "avgFollowRate": 0.022283844695972423,
+   "totalFollows": 19
+  },
+  {
+   "name": "B 天体イベント系",
+   "posts": 2,
+   "medianReach": 3466,
+   "avgSaveRate": 0.8487169784991252,
+   "avgFollowRate": 0.013283740701381509,
+   "totalFollows": 1
+  },
+  {
+   "name": "D リール",
+   "posts": 5,
+   "medianReach": 3690,
+   "avgSaveRate": 1.711849990814304,
+   "avgFollowRate": 0,
+   "totalFollows": 0
+  }
+ ],
+ "bestTimes": [
+  {
+   "day": 4,
+   "hour": 19,
+   "posts": 2,
+   "medianReach": 9234,
+   "avgSaveRate": 1.400687828697418,
+   "dayLabel": "木"
+  },
+  {
+   "day": 6,
+   "hour": 20,
+   "posts": 2,
+   "medianReach": 7556,
+   "avgSaveRate": 1.196254265753256,
+   "dayLabel": "土"
+  },
+  {
+   "day": 3,
+   "hour": 20,
+   "posts": 4,
+   "medianReach": 6448,
+   "avgSaveRate": 1.3393572052799074,
+   "dayLabel": "水"
+  },
+  {
+   "day": 5,
+   "hour": 21,
+   "posts": 2,
+   "medianReach": 6310,
+   "avgSaveRate": 1.22190057249834,
+   "dayLabel": "金"
+  },
+  {
+   "day": 0,
+   "hour": 20,
+   "posts": 3,
+   "medianReach": 5979,
+   "avgSaveRate": 1.4718105734359839,
+   "dayLabel": "日"
+  },
+  {
+   "day": 3,
+   "hour": 19,
+   "posts": 2,
+   "medianReach": 5965,
+   "avgSaveRate": 1.105762327602494,
+   "dayLabel": "水"
+  },
+  {
+   "day": 0,
+   "hour": 19,
+   "posts": 3,
+   "medianReach": 5479,
+   "avgSaveRate": 1.4481969797011167,
+   "dayLabel": "日"
+  },
+  {
+   "day": 2,
+   "hour": 19,
+   "posts": 4,
+   "medianReach": 4780,
+   "avgSaveRate": 1.1285149615923147,
+   "dayLabel": "火"
+  },
+  {
+   "day": 5,
+   "hour": 20,
+   "posts": 3,
+   "medianReach": 3764,
+   "avgSaveRate": 1.3521153642232917,
+   "dayLabel": "金"
+  },
+  {
+   "day": 1,
+   "hour": 19,
+   "posts": 3,
+   "medianReach": 3168,
+   "avgSaveRate": 0.8047219621844399,
+   "dayLabel": "月"
+  },
+  {
+   "day": 5,
+   "hour": 19,
+   "posts": 3,
+   "medianReach": 3081,
+   "avgSaveRate": 1.0791213827013613,
+   "dayLabel": "金"
+  }
+ ],
  "pdca": [],
  "actions": [
-  "**データ未取得**: `./start.sh mamekko` でDB起動→ `npx tsx run-sync.ts` でInstagram APIからデータを取得してください",
-  "データ取得後 `npm run analyze:publish` でこのページが自動更新されます"
+  "**頻度**: 週平均2.9本→目標3本。0本の週を作らない（アルゴリズム評価維持）",
+  "**フック**: 直近3本が「中身は良いのに露出弱い」型。1枚目タイトルを好奇心型（数字・診断・意外性）に寄せる",
+  "**プロフィール**: プロフ訪問→フォロー転換が平均2.4%と低い。プロフ文・ハイライト・固定投稿を見直す",
+  "**テーマ強化**: 「手放し・委ねる」がフォロー率0.046%で最強（5本）。次週プランに最低1本入れる",
+  "**テーマ削減**: 「波動・エネルギー」はフォロー率0.013%（7本）。本数を減らすか切り口を変える"
  ]
 }
