@@ -17,7 +17,7 @@ main{max-width:1080px;margin:0 auto;padding:16px}
 .card{background:var(--card);border-radius:12px;box-shadow:0 1px 6px rgba(0,0,0,.05);padding:20px;margin-bottom:16px}
 .card h2{font-size:1.05rem;margin-bottom:12px}
 .card .note{font-size:.75rem;color:var(--sub);margin:-8px 0 12px}
-.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
 @media(max-width:700px){.kpi-grid{grid-template-columns:repeat(2,1fr)}}
 .kpi{background:var(--card);border-radius:12px;box-shadow:0 1px 6px rgba(0,0,0,.05);padding:16px}
 .kpi .label{font-size:.75rem;color:var(--sub)}
@@ -69,7 +69,8 @@ footer{text-align:center;color:#9ca3af;font-size:.75rem;padding:24px}
 <div id="error"></div>
 <main id="main" style="display:none">
 <div class="kpi-grid" id="kpis"></div>
-<div class="card"><h2>次のアクション提案</h2><ul class="actions" id="actions"></ul></div>
+<div class="card"><h2>今週やること</h2><p class="note">優先度順・最大3つ。終わったら次週のレポートで効果を確認</p><div id="todo"></div></div>
+<div class="card"><h2>その他の気づき</h2><ul class="actions" id="actions"></ul></div>
 <div class="card">
 <h2>投稿スコアカード</h2>
 <p class="note">リーチ指数=直前投稿の中央値との比。1.5以上で当たり、0.6未満で外れ</p>
@@ -78,6 +79,7 @@ footer{text-align:center;color:#9ca3af;font-size:.75rem;padding:24px}
 <tbody></tbody></table></div>
 </div>
 <div class="card"><h2>PDCA検証（仮説→実績）</h2><div id="pdca"></div></div>
+<div class="card"><h2>セミナーナレッジ検証</h2><p class="note">knowledge/のルールを適用した投稿と非適用投稿の比較。適用2本以上で判定</p><div class="tablewrap"><table id="knowledge"><thead><tr><th>ルール</th><th>出典</th><th>指標</th><th class="r">適用</th><th class="r">適用平均</th><th class="r">非適用平均</th><th>判定</th></tr></thead><tbody></tbody></table></div></div>
 <div class="grid-2">
 <div class="card"><h2>テーマ別（過去90日）</h2><div class="tablewrap"><table id="themes"><thead><tr><th>分類</th><th class="r">本数</th><th class="r">中央値リーチ</th><th class="r">保存率</th><th class="r">フォロー率</th></tr></thead><tbody></tbody></table></div></div>
 <div class="card"><h2>型別（過去90日）</h2><div class="tablewrap"><table id="patterns"><thead><tr><th>分類</th><th class="r">本数</th><th class="r">中央値リーチ</th><th class="r">保存率</th><th class="r">フォロー率</th></tr></thead><tbody></tbody></table></div></div>
@@ -117,7 +119,11 @@ document.getElementById("kpis").innerHTML=
 kpi("フォロワー",fmt(h.latestFollowers),h.followersDelta28d!=null?'<div class="delta '+(h.followersDelta28d>=0?"up":"down")+'">28日 '+signed(h.followersDelta28d)+"</div>":"")+
 kpi("フォロワー増減（7日）",signed(h.followersDelta7d),"")+
 kpi("日次リーチ28日平均",fmt(h.avgDailyReachRecent),trend)+
+kpi("リンククリック（28日計）",fmt(h.websiteClicks28d),h.websiteClicksPrev28d!=null?'<div class="delta">前28日: '+fmt(h.websiteClicksPrev28d)+"</div>":"")+
+kpi("LINE友だち",h.lineFriends!=null?fmt(h.lineFriends):"未記録",h.lineFriendsDelta28d!=null?'<div class="delta '+(h.lineFriendsDelta28d>=0?"up":"down")+'">28日 '+signed(h.lineFriendsDelta28d)+"</div>":"")+
 kpi("投稿頻度（週平均）",h.avgPostsPerWeek.toFixed(1)+"本","");
+const todos=r.weeklyTodo||[];
+document.getElementById("todo").innerHTML=todos.length?todos.map((t,i)=>'<div class="pdca-item"><div class="head"><span style="color:var(--accent);font-weight:700">'+(i+1)+'.</span><span class="title">'+esc(t.title)+'</span></div><div class="hyp">'+esc(t.reason)+'</div>'+t.steps.map(s=>'<div class="check">☐ '+esc(s)+"</div>").join("")+"</div>").join(""):'<div class="empty">特になし。当たりの型を再現しつつ通常運転でOK</div>';
 document.getElementById("actions").innerHTML=r.actions.map(a=>'<li><span class="arrow">→</span><span>'+bold(a)+"</span></li>").join("");
 document.querySelector("#scorecard tbody").innerHTML=r.scorecard.length?r.scorecard.map(s=>{
 const t=s.permalink?'<a class="post-title" target="_blank" rel="noopener" href="'+esc(s.permalink)+'">'+esc(s.title)+"</a>":'<span class="post-title">'+esc(s.title)+"</span>";
@@ -134,6 +140,11 @@ if(p.diagnosis.length)body+='<div class="diag">'+esc(p.diagnosis.join("／"))+"<
 }
 return '<div class="pdca-item"><div class="head"><span class="date">'+esc(p.date||"日付未定")+'</span><span class="title">'+esc(p.title||p.file)+"</span></div>"+(p.hypothesis?'<div class="hyp">仮説: '+esc(p.hypothesis)+"</div>":"")+body+"</div>";
 }).join(""):'<div class="empty">プランファイルがありません。accounts/mamekko/pdca/に投稿プラン（_template.md参照）を置くと自動で実績と突き合わせます。</div>';
+const kn=r.knowledge||[];
+document.querySelector("#knowledge tbody").innerHTML=kn.length?kn.map(k=>{
+const vc=k.verdict==="効いている"?"v-hit":k.verdict==="効いていない"?"v-miss":"v-na";
+return "<tr><td>"+esc(k.title)+"</td><td>"+esc(k.source||"—")+"</td><td>"+esc(k.metricLabel)+'</td><td class="r">'+k.applied+'本</td><td class="r">'+(k.avgApplied!=null?k.avgApplied.toFixed(2):"—")+'</td><td class="r">'+(k.avgOthers!=null?k.avgOthers.toFixed(2):"—")+'</td><td><span class="badge '+vc+'">'+esc(k.verdict)+"</span></td></tr>";
+}).join(""):'<tr><td colspan="7" class="empty">ナレッジがありません。accounts/mamekko/knowledge/にセミナーの学びをルール化して置くと自動判定されます</td></tr>';
 const grp=s=>"<tr><td>"+esc(s.name)+'</td><td class="r">'+s.posts+'</td><td class="r">'+fmt(s.medianReach)+'</td><td class="r">'+s.avgSaveRate.toFixed(2)+'%</td><td class="r">'+s.avgFollowRate.toFixed(3)+"%</td></tr>";
 document.querySelector("#themes tbody").innerHTML=r.themes.map(grp).join("")||'<tr><td colspan="5" class="empty">データなし</td></tr>';
 document.querySelector("#patterns tbody").innerHTML=r.patterns.map(grp).join("")||'<tr><td colspan="5" class="empty">データなし</td></tr>';
