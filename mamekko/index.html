@@ -119,10 +119,11 @@ const idx=n=>n==null?"—":n.toFixed(2);
 const signed=n=>n==null?"±?":(n>=0?"+":"")+fmt(n);
 const vclass={"当たり":"v-hit","良好":"v-good","普通":"v-mid","弱い":"v-weak","外れ":"v-miss"};
 const vb=v=>'<span class="badge '+(vclass[v]||"v-na")+'">'+esc(v||"判定不能")+"</span>";
-let R=null,P=null;
+let R=null,P=null,ST=null;
 const VIEWS=[
 {id:"home",icon:"📌",label:"今週やること"},
 {id:"score",icon:"📊",label:"スコアカード"},
+{id:"stories",icon:"📱",label:"ストーリーズ"},
 {id:"reuse",icon:"🔁",label:"横展開・再投稿"},
 {id:"compare",icon:"🕰",label:"時代比較"},
 {id:"groups",icon:"🎯",label:"テーマ・型"},
@@ -146,6 +147,10 @@ try{
 const res=await fetch("./posts.json?t="+Date.now());
 if(res.ok)P=(await res.json()).posts;
 }catch(e){P=null}
+try{
+const res=await fetch("./stories.json?t="+Date.now());
+if(res.ok)ST=(await res.json()).stories;
+}catch(e){ST=null}
 document.getElementById("meta").innerHTML="直近"+R.recentDays+"日<br>更新: "+new Date(R.generatedAt).toLocaleString("ja-JP")+(P?"<br>全"+P.length+"投稿":"");
 window.addEventListener("hashchange",render);
 render();
@@ -154,7 +159,7 @@ function cur(){const h=location.hash.replace("#","");return VIEWS.some(v=>v.id==
 function render(){
 const id=cur();
 document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("active",a.dataset.v===id));
-document.getElementById("view").innerHTML=({home,score,reuse,compare,groups,pdca,knowledge,times})[id]();
+document.getElementById("view").innerHTML=({home,score,stories,reuse,compare,groups,pdca,knowledge,times})[id]();
 afterRender(id);
 }
 const needPosts='<div class="card"><div class="empty">全投稿データ（posts.json）がまだありません。<code>npm run analyze:publish</code>を実行すると生成されます。</div></div>';
@@ -188,6 +193,53 @@ return '<h1>スコアカード</h1><div class="sub">直近'+R.recentDays+'日の
 +'<div class="card"><div class="tablewrap"><table><thead><tr><th>日付</th><th>投稿</th><th>型</th><th>テーマ</th><th class="r">リーチ</th><th class="r">指数</th><th class="r">保存率</th><th class="r">フォロー</th><th>判定</th></tr></thead><tbody>'
 +(rows.length?rows.map((s,i)=>'<tr class="click" data-sc="'+i+'"><td>'+esc(s.date)+'</td><td><span class="pt">'+esc(s.title)+"</span>"+(s.diagnosis.length?'<div class="diag">'+esc(s.diagnosis.join("／"))+"</div>":"")+"</td><td>"+esc(s.pattern)+"</td><td>"+esc(s.theme)+'</td><td class="r">'+fmt(s.reach)+'</td><td class="r"><strong>'+idx(s.reachIndex)+'</strong></td><td class="r">'+pct(s.saveRate)+'</td><td class="r">'+s.follows+"</td><td>"+vb(s.verdict)+"</td></tr>").join(""):'<tr><td colspan="9" class="empty">直近の投稿データがありません</td></tr>')
 +"</tbody></table></div></div>";
+}
+function stories(){
+const h=R.health;
+let dataPart;
+if(!ST||!ST.length){
+dataPart='<div class="card"><h2>データはまだありません</h2><div class="empty" style="white-space:normal">ストーリーのインサイトはAPIの仕様上<strong>公開中（24時間以内）しか取得できません</strong>。ストーリーを出した日の夜に<code>npx tsx run-sync.ts</code>を実行すると、その日の分がここに貯まっていきます（sync手順に組み込み済み）。データが無くても下の運用ガイドとリンククリック計測でPDCAは回せます。</div></div>';
+}else{
+const day=new Map();
+for(const s of ST){if(!s.date)continue;if(!day.has(s.date))day.set(s.date,[]);day.get(s.date).push(s)}
+const days=[...day.entries()].sort((a,b)=>b[0].localeCompare(a[0]));
+const recent=ST.filter(s=>s.date&&Date.now()-new Date(s.date)<=28*864e5);
+const sum=(a,k)=>a.reduce((s,x)=>s+(x[k]||0),0);
+const avgViews=recent.length?Math.round(sum(recent,"views")/recent.length):null;
+dataPart='<div class="kpi-grid">'
++kpi("ストーリー枚数（28日）",recent.length,"")
++kpi("平均閲覧数",fmt(avgViews),"")
++kpi("返信合計（28日）",fmt(sum(recent,"replies")),"")
++kpi("プロフ訪問（28日）",fmt(sum(recent,"profileVisits")),"")
++kpi("フォロー獲得（28日）",fmt(sum(recent,"follows")),"")
++kpi("シェア（28日）",fmt(sum(recent,"shares")),"")
++"</div>"
++'<div class="card"><h2>日別ストーリー成績</h2><p class="note">閲覧数はフォロワーへの浸透度。返信・プロフ訪問が「刺さった」シグナル</p><div class="tablewrap"><table><thead><tr><th>日付</th><th class="r">枚数</th><th class="r">平均閲覧</th><th class="r">最大閲覧</th><th class="r">返信</th><th class="r">シェア</th><th class="r">プロフ訪問</th><th class="r">フォロー</th></tr></thead><tbody>'
++days.map(([d,list])=>{
+const mx=Math.max(...list.map(s=>s.views));
+return"<tr><td>"+esc(d)+'</td><td class="r">'+list.length+'</td><td class="r">'+fmt(Math.round(sum(list,"views")/list.length))+'</td><td class="r">'+fmt(mx)+'</td><td class="r">'+fmt(sum(list,"replies"))+'</td><td class="r">'+fmt(sum(list,"shares"))+'</td><td class="r">'+fmt(sum(list,"profileVisits"))+'</td><td class="r">'+fmt(sum(list,"follows"))+"</td></tr>";
+}).join("")
++"</tbody></table></div></div>";
+}
+return '<h1>ストーリーズ</h1><div class="sub">既存フォロワーとの関係構築とLINE誘導の装置。フィード（新規向け）とは役割が違う</div>'
++'<div class="kpi-grid">'
++kpi("リンククリック（28日計）",fmt(h.websiteClicks28d),h.websiteClicksPrev28d!=null?'<div class="delta">前28日: '+fmt(h.websiteClicksPrev28d)+"</div>":"")
++kpi("LINE友だち",h.lineFriends!=null?fmt(h.lineFriends):"未記録",h.lineFriendsDelta28d!=null?'<div class="delta '+(h.lineFriendsDelta28d>=0?"up":"down")+'">28日 '+signed(h.lineFriendsDelta28d)+"</div>":"")
++kpi("フォロワー",fmt(h.latestFollowers),"")
++"</div>"
++dataPart
++'<div class="card"><h2>運用ガイド（基本の型: 1日3〜4枚）</h2><ul class="legend">'
++"<li><strong>①共感フック</strong>: 悩みの言語化・今日の気づき（例:「なんか今日ソワソワする人いませんか？」）</li>"
++"<li><strong>②価値</strong>: ミニ鑑定・今日の波動・祝詞などフィードに書かない小ネタ</li>"
++"<li><strong>③参加</strong>: アンケート/クイズ/リアクションを毎日1枚（反応した人に優先表示される＝表示順対策の生命線）</li>"
++"<li><strong>④CTA</strong>: LINEリンクは週2〜3回だけ。「タップすると何がもらえるか」を文字で明示。カウントダウン×期間限定が最強</li>"
++"</ul></div>"
++'<div class="card"><h2>マメッコ向けネタ（実績データから逆算）</h2><ul class="legend">'
++"<li><strong>朝の「今日の波動チェック」定番化</strong>: 診断系はフィードで実証済みの最強型。翌朝「昨日Aだった人は…」で回収すると連続視聴の習慣がつく</li>"
++"<li><strong>満月・新月の日に集中運用</strong>: リマインド連投→「LINEで手放しワーク音声配布中」</li>"
++"<li><strong>質問スタンプ「今モヤモヤしてること」</strong>: 返信はアルゴリズム最強シグナル＋次のフィード投稿のネタ帳になる</li>"
++"<li><strong>フィード投稿のシェア</strong>: 投稿当日は必ず。過去の当たりも「1年前のこれ、今も刺さる」で横展開（🔁ページで発掘）</li>"
++'</ul><p class="note" style="margin-top:8px">詳細はaccounts/mamekko/STORIES.md。効果測定はこのページ上部のリンククリックとLINE友だちの週次比較で</p></div>';
 }
 let reuseState={theme:"",period:"all",sort:"follows"};
 function reuse(){
